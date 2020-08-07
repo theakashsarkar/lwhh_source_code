@@ -17,26 +17,47 @@
                     <?php echo "Hello world"; ?>
                 </h1>
                 <p>
+                    <?php 
+                        $firstName = "";
+                        $lastName  = "";
+                        $checked = "";
+                        if(isset( $_REQUEST['cb1']) && $_REQUEST['cb1']==1){
+                            $checked = 'checked';
+                        }
+                    ?>
                     <?php if ( isset( $_GET['fname'] ) && !empty( $_GET['fname'] ) ): ?>
-                    First Name : <?php echo $_GET["fname"]; ?>
+                    <?php //$firstName = htmlspecialchars( $_REQUEST['fname']); 
+                        $firstName = filter_input(INPUT_POST,'fname',FILTER_SANITIZE_URL);
+                    ?>
                     <?php endif?>
                     <?php echo PHP_EOL ?>
                     <br />
                     <?php if ( isset( $_GET['lname'] ) && !empty( $_GET['lname'] ) ): ?>
-                    Last Name  : <?php echo $_GET["lname"]; ?>
+                     <?php $lastName = htmlspecialchars( $_REQUEST['lname']); ?>
                     <?php endif?>
+                </p>
+                <p>
+                    FirstName : <?php echo $_REQUEST['fname']?>
+                    <br>
+                    LastName  : <?php echo $_REQUEST['lname']?>
                 </p>
             </div>
         </div>
         <div class="row">
             <div class="column column-offset-20">
-                <form action="">
+                <form method = "POST" action="" >
                     <label for="fname">First Name</label>
-                    <input type="text" name="fname" id="fname">
+                    <input type="text" name="fname" id="fname" value="<?php echo $firstName; ?>">
 
                     <label for="lname">Last Name</label>
-                    <input type="text" name="lname" id="lname">
+                    <input type="text" name="lname" id="lname" value="<?php echo $lastName; ?>">
 
+                    
+                    <div>
+                        <input type="checkbox" name="cb1" id="cb1" value="1" <?php echo $checked?>>
+                        <label for="cb1" class="label-inline">some checkbox</label>
+
+                    </div>
                     <button type="submit">submit</button>
                 </form>
             </div>
