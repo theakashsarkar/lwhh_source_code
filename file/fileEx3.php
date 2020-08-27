@@ -8,6 +8,8 @@ if(!is_readable($fileName)){
   while($line = fgets($fp)){
     echo $line;
   }
+  rewind($fp);
+  fseek($fp,8);
   while($line = fgets($fp)){
     echo $line;
   }
