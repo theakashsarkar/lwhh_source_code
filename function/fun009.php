@@ -28,7 +28,7 @@ function doSomething():void {
     echo "\n";
 }
 function doExtra():void {
-    static $i;
+    static $i; //static scope
     $i = $i ?? 0;
     $i++;
     echo $i;
