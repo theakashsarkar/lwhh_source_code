@@ -9,3 +9,10 @@ function factorial(int $n) { //paameter
     }
     return $result;
 }
+/*
+ * Determines if the argument id serve
+ */
+
+function serve($foodType = "coffee", $numberOfItems = "1 cup") {
+    echo "{$numberOfItems} of {$foodType} has been serve";
+}
