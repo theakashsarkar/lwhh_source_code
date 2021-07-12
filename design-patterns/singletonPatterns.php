@@ -3,12 +3,12 @@ class SomeClass
 {
     static $instance;
     public $name;
-    function __construct($name)
+    function __construct($name = null)
     {
         $this->name = $name;
         echo "New instance create\n";
     }
-    static function getInstance($name)
+    static function getInstance($name = null)
     {
         if(!self::$instance)
         {
