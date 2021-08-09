@@ -1,3 +1,12 @@
+<?php
+    include_once "config.php";
+    $connection = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
+    if(!$connection){
+        throw new EXception("Cannot Connection to database");
+    }
+    $query = "SELECT * FROM tasks ORDER BY dates";
+    $result = mysqli_query($connection,$query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,6 +36,13 @@
         for this project</p>
     
     <h4>All Tasks</h4>
+    <?php 
+        if(mysqli_num_rows($result) == 0){
+            ?>
+            <p>No Task Found</p>
+        <?php    
+        }else{
+    ?>
     <form>
         <table>
             <thead>
@@ -39,20 +55,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><input class="label-inline" type="checkbox"value="1"></td>
-                    <td>1</td>
-                    <td>Bring Medicine for Dad</td>
-                    <td>18th May, 2020</td>
-                    <td><a href="#">Delete</a> | <a href="#">Edit</a> | <a href="#">Complete</a></td>
-                </tr>
-                <tr>
-                    <td><input class="label-inline" type="checkbox" value="1"></td>
-                    <td>2</td>
-                    <td>Submit physics homework</td>
-                    <td>19th May, 2020</td>
-                    <td><a href="#">Delete</a> | <a href="#">Edit</a> |  <a href="#">Complete</a></td>
-                </tr>
+                <?php
+                    while($data = mysqli_fetch_assoc($result)){
+                        $timeStamp = strtotime($data['dates']);
+                        $date = date("jS M,Y",$timeStamp);
+                        ?>
+                         <tr>
+                            <td><input class="label-inline" type="checkbox"value="<?php echo $data['id']?>"></td>
+                            <td><?php echo $data['id']?></td>
+                            <td><?php echo $data['task']?></td>
+                            <td><?php echo $date?></td>
+                            <td><a href="#">Delete</a> | <a href="#">Edit</a> | <a href="#">Complete</a></td>
+                         </tr>
+                    <?php    
+                    }
+                    mysqli_close($connection);
+                ?>
             </tbody>
         </table>
         <select id="action">
@@ -62,10 +80,19 @@
         </select>
         <input class="button-primary" id="bulksubmit" type="submit" value="Submit">    
     </form>
+    <?php
+    }
+    ?>
     <p>...</p>
     <h4>Add Tasks</h4>
-    <form method="post" action="tasks.php">
+    <form action="tasks.php" method="post" >
         <fieldset>
+            <?php
+                $added = $_GET['added']??"";
+                if($added){
+                    echo '<p>Task successfully added</p>';
+                }
+            ?>
             <label for="task">Task</label>
             <input type="text" placeholder="Task Details" id="task" name="task">
             <label for="date">Date</label>
