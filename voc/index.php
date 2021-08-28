@@ -1,4 +1,10 @@
 <?php
+session_start();
+$_user_id = $_SESSION['id']??0;
+if($_user_id){
+    header('Location: words.php');
+    die();
+}
     include_once "function.php";
 ?>
 <!DOCTYPE html>
@@ -28,7 +34,7 @@
             </div>
             <div class="formc">
                 <form id="form01" method="post" action="tasks.php">
-                    <h3>Register</h3>
+                    <h3>Login</h3>
                     <fieldset>
                         <label for="email">Email</label>
                         <input type="text" placeholder="Email Address" id="email" name="email">
@@ -43,7 +49,7 @@
                             ?>
                         </p>
                         <input class="button-primary" type="submit" value="Submit">
-                        <input type="hidden" name="action" id="action" value="register">
+                        <input type="hidden" name="action" id="action" value="login">
                     </fieldset>
                 </form>
             </div>
